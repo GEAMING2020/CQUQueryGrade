@@ -1,5 +1,3 @@
-from QueryGrade import login
-from requests import Session
 from QueryGrade.query_grade import query_grade
 
 if __name__ == "__main__":
