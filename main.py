@@ -3,6 +3,6 @@ from requests import Session
 from QueryGrade.query_grade import query_grade
 
 if __name__ == "__main__":
-    username = "20181656"
-    password = "7509220qaz"
+    username = input("学号(统一认证号): ")
+    password = input("密码:")
     query_grade(username, password)
