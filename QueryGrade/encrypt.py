@@ -2,13 +2,15 @@ from Crypto.Cipher import AES
 import base64
 import math
 import random
+
 aes_chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
+
+
 class Encrypt:
     def __init__(self, key, iv):
         self.key = key.encode('utf-8')
         self.iv = iv.encode('utf-8')
 
-    # @staticmethod
     def pkcs7padding(self, text):
         """
         明文使用PKCS7填充
@@ -21,6 +23,7 @@ class Encrypt:
         padding_text = chr(padding) * padding
         self.coding = chr(padding)
         return text + padding_text
+
     def aes_encrypt(self, content):
         """
         AES加密
@@ -33,7 +36,7 @@ class Encrypt:
         # 重新编码
         result = str(base64.b64encode(encrypt_bytes), encoding='utf-8')
         return result
- 
+
     def aes_decrypt(self, content):
         """                
         AES解密
@@ -43,13 +46,9 @@ class Encrypt:
         text = cipher.decrypt(content).decode('utf-8')
         return text.rstrip(self.coding)
 
+
 def randomWord(num):
-    res=''
+    res = ''
     for i in range(num):
-        res+=aes_chars[math.floor(random.random()*len(aes_chars))]
+        res += aes_chars[math.floor(random.random()*len(aes_chars))]
     return res
-
-if __name__ == '__main__':
-    pass
-
-    
