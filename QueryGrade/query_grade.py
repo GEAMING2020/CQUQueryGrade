@@ -214,8 +214,15 @@ def query_grade(username: str, password: str) -> None:
     five_credits = 0
     four_credits = 0
     avarage_score = 0
+    five_level={"优":90,"良":85,"中":75,"及格":65,"不及格":50}
+    two_level={"合格":85,"不合格":50}
     for item in course_dic:
-        score = eval(item["成绩"])
+        if item['成绩'] in five_level.keys():
+            score=five_level[item['成绩']]
+        elif item['成绩'] in two_level.keys():
+            score=two_level[item['成绩']]
+        else:
+            score = eval(item["成绩"])
         avarage_score += score*eval(item["学分"])
         if score < 60:
             five_credits += 0
