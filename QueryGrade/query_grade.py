@@ -1,4 +1,3 @@
-from .encrypt import *
 from bs4 import BeautifulSoup
 import json
 import time
@@ -209,7 +208,7 @@ def query_grade(username: str, password: str) -> None:
                            item['studyNature'], item['courseCode'], Course_Info['学分']])
             course_dic.append(
                 {"成绩": item['effectiveScoreShow'], "学分": Course_Info['学分']})
-            total_credits = total_credits+int(Course_Info['学分'])
+            total_credits = total_credits+eval(Course_Info['学分'])
         # 打印成绩
         print(table)
     five_credits = 0
