@@ -190,7 +190,7 @@ def get_grade(session: Session) -> Dict:
     return json.loads(score.text)
 
 
-def query_grade(username: str, password: str) -> None:
+def query_grade(username: str, password: str, output: bool=True) -> str:
     grade_service = "http://my.cqu.edu.cn/authserver/authentication/cas"
     course_service = "http://my.cqu.edu.cn/cm/portal/course"
     grade_session = login(username, password, grade_service)
@@ -199,9 +199,10 @@ def query_grade(username: str, password: str) -> None:
     grades = get_grade(grade_session)
     course_dic = []  # 课程成绩，学分
     total_credits = 0  # 总学分
+    table = pt.PrettyTable(['课程名称', '课程性质', '成绩', '修读性质', '课程代码', '学分'])
     for key, items in grades['data'].items():
-        print("学期--{}".format(key))
-        table = pt.PrettyTable(['课程名称', '课程性质', '成绩', '修读性质', '课程代码', '学分'])
+        if output:
+            print("学期--{}".format(key))
         for item in items:
             Course_Info = get_course_credit(
                 course_session, item["courseCode"], course_page_params)  # 查询课程学分
@@ -211,7 +212,8 @@ def query_grade(username: str, password: str) -> None:
                 {"成绩": item['effectiveScoreShow'], "学分": Course_Info['学分']})
             total_credits = total_credits+int(Course_Info['学分'])
         # 打印成绩
-        print(table)
+        if output:
+            print(table)
     five_credits = 0
     four_credits = 0
     avarage_score = 0
@@ -232,4 +234,6 @@ def query_grade(username: str, password: str) -> None:
     credits_table = pt.PrettyTable(["总学分", "平均分", "5分制绩点", "4分制绩点"])
     credits_table.add_row(
         [total_credits, avarage_score, five_credits, four_credits])
-    print(credits_table)
+    if output:
+        print(credits_table)
+    return table.get_string() + "\n" + credits_table.get_string()
